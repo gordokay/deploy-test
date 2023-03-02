@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const uniqid = require('uniqid');
+const morgan = require('morgan');
 
 let notes = require('./notes');
 
@@ -11,6 +12,7 @@ const unknownEndpoint = (req, res) => {
 
 app.use(express.json());
 app.use(cors());
+app.use(morgan('tiny'));
 
 app.get('/', (req, res) => {
   res.send('hi');
