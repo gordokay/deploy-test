@@ -5,6 +5,10 @@ const uniqid = require('uniqid');
 
 let notes = require('./notes');
 
+const unknownEndpoint = (req, res) => {
+  res.status(404).json({"error": "unknown endpoint"});
+}
+
 app.use(express.json());
 app.use(cors());
 
@@ -55,6 +59,14 @@ app.put('/notes/:id', (req, res) => {
   notes = notes.filter(n => n.id !== id).concat(updatedNote);
   res.json(updatedNote);
 })
+
+app.delete('/notes/:id', (req, res) => {
+  const id = req.params.id;
+  notes = notes.filter(n => n.id !== id);
+  res.status(204).end();
+})
+
+app.use(unknownEndpoint);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
